@@ -11,7 +11,7 @@ def setupRMQConnection(self) -> None:
     con_params = pika.URLParameters(os.environ["AMQP_URL"])
     self.connection = pika.BlockingConnection(parameters=con_params)
     sefl.channel = connection.channel()
-    self.exchange = channel.exchange_declare(exchange=self.exchange_name)
+    exchange = self.channel.exchange_declare(exchange=self.exchange_name)
 
 def publishOrder(self, message: str) -> None:
     
