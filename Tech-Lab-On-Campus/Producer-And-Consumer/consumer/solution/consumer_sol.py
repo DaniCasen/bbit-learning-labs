@@ -18,20 +18,20 @@ def setupRMQConnection(self) -> None:
         self.channel = self.connection.channel()
 
         # Create Queue if not already present
-        self.channel.queue_declare(queue="self.queue_name")
+        self.channel.queue_declare(queue=self.queue_name)
 
         # Create the exchange if not already present
-        self.exchange = self.channel.exchange_declare(exchange="self.exchange_name")
+        exchange = self.channel.exchange_declare(exchange=self.exchange_name)
 
         # Bind Binding Key to Queue on the exchange
         self.channel.queue_bind(
-            queue= "self.queue_name",
-            routing_key= "self.binding_key",
-            exchange="self.exchange_name",
+            queue= self.queue_name,
+            routing_key= self.binding_key,
+            exchange=self.exchange_name,
         )
         # Set-up Callback function for receiving messages
         self.channel.basic_consume(
-            "self.queue_name", setupRMQConnection, auto_ack=False ##Function Names
+            self.queue_name, setupRMQConnection, auto_ack=False ##Function Names
         )
 
 def on_message_callback(self, channel, method_frame, header_frame, body) -> None:
@@ -41,9 +41,6 @@ def on_message_callback(self, channel, method_frame, header_frame, body) -> None
     #Print message (The message is contained in the body parameter variable)
     print(body)
 
-    
-    self.channel.close()
-    self.connection.close()
     
 
 
